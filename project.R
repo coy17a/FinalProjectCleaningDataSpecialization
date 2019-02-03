@@ -4,14 +4,14 @@ library(tidyr)
 library(purrr)
 
 
-trainx <- read_delim("./train/X_Train.txt", delim = " ", col_names = FALSE)
-trainy <- read_delim("./train/Y_Train.txt", delim = " ", col_names = FALSE)
-subject_train <-read_delim("./train/subject_train.txt", delim = " ", col_names = FALSE)
-testx <- read_delim("./test/X_Test.txt", delim = " ", col_names = FALSE)
-testy <- read_delim("./test/Y_Test.txt", delim = " ", col_names = FALSE)
-subject_test <-read_delim("./test/subject_test.txt", delim = " ", col_names = FALSE)
-features <- read_delim("features.txt",delim = " ",col_names = FALSE)
-activities <-  read_delim("activity_labels.txt",delim = " ",col_names = FALSE)
+trainx <- read_delim("./Original_DataSet/train/X_Train.txt", delim = " ", col_names = FALSE)
+trainy <- read_delim("./Original_DataSet/train/Y_Train.txt", delim = " ", col_names = FALSE)
+subject_train <-read_delim("./Original_DataSet/train/subject_train.txt", delim = " ", col_names = FALSE)
+testx <- read_delim("./Original_DataSet/test/X_Test.txt", delim = " ", col_names = FALSE)
+testy <- read_delim("./Original_DataSet/test/Y_Test.txt", delim = " ", col_names = FALSE)
+subject_test <-read_delim("./Original_DataSet/test/subject_test.txt", delim = " ", col_names = FALSE)
+features <- read_delim("./Original_DataSet/features.txt",delim = " ",col_names = FALSE)
+activities <-  read_delim("./Original_DataSet/activity_labels.txt",delim = " ",col_names = FALSE)
 
 #join the train and test df
 df <- rbind(trainx,testx)
@@ -27,9 +27,11 @@ selection2 <- grep("std()",features$X2)
 selection <- sort(c(selection1,selection2))
 df <- df[,selection]
 features <- features[selection,]
+
 #name columns in trainx
 names(df) <- features$X2
-#join the activities and subject information nad label variables
+
+#join the activities and subject information and label variables
 df<- df %>%
 mutate(Activity = trainingLabels,Subjects_Number= subjects$X1)
 #tidy data 
@@ -41,3 +43,9 @@ tidydf <- df %>%
 #tidydf <- spread(tidyf,Subjects_Number,)
 tidydf <- gather (tidydf,features$X2,key="Measurements",value="mean")
 tidydf <- spread (tidydf,Subjects_Number,mean)
+
+#wirte the df to files
+write.csv(features$X2, file = "./newDataSets/newFeatures.csv")
+write.csv(tidydf, file = "./newDataSets/tidy.csv")
+write.csv(tidydf, file = "./newDataSets/df.csv")
+
