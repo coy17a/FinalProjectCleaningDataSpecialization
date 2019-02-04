@@ -80,11 +80,11 @@ In order to calculate the mean of each variable for each activity and subject th
     group_by(Subjects_Number,Activity)%>%
     summarise_all(funs(mean))
 
-However to obtain a tidy data set we should spread the subjects. This is achieved by gather the date by all the variables in one column and then spread the subjects 
+However to obtain a tidy data set we should spread the Measurements. This is achieved by gather the date by all the variables in one column and then spread the Measurements.  
 
 
     tidydf <- gather (tidydf,features$X2,key="Measurements",value="mean")
-    tidydf <- spread (tidydf,Subjects_Number,mean)
+    tidydf <- spread (tidydf,Measurements,mean)
 
 
 Finally the data frames product of this project are saved as csv files:
