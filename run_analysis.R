@@ -42,10 +42,12 @@ tidydf <- df %>%
     summarise_all(funs(mean))
 #tidydf <- spread(tidyf,Subjects_Number,)
 tidydf <- gather (tidydf,features$X2,key="Measurements",value="mean")
-tidydf <- spread (tidydf,Subjects_Number,mean)
+tidydf <- spread (tidydf,Measurements,mean)
 
 #wirte the df to files
 write.csv(features$X2, file = "./newDataSets/newFeatures.csv")
 write.csv(tidydf, file = "./newDataSets/tidy.csv")
 write.csv(tidydf, file = "./newDataSets/df.csv")
+write.table(tidydf, file = "./newDataSets/tidy.txt", row.names = FALSE)
+
 
